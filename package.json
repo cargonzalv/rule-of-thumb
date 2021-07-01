@@ -1,0 +1,37 @@
+{
+  "name": "rule-of-thumb",
+  "version": "1.0.0",
+  "description": "Zemoga Front end dev challenge",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cargonzalv/rule-of-thumb.git"
+  },
+  "keywords": [
+    "zemoga",
+    "challenge",
+    "web",
+    "dev",
+    "frontend",
+    "react",
+    "redux",
+    "nextjs"
+  ],
+  "author": "Carlos Gonzalez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cargonzalv/rule-of-thumb/issues"
+  },
+  "homepage": "https://github.com/cargonzalv/rule-of-thumb#readme",
+  "dependencies": {
+    "next": "^11.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
