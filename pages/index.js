@@ -1019,9 +1019,10 @@ export default function Home() {
               margin: 2rem 0;
           }
 
-          .list-container {
-            justify-content: space-between;
-          }
+      }
+      
+      .list-container {
+        justify-content: space-between;
       }
       
       `}</style>
