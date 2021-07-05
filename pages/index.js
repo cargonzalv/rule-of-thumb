@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import ListContainer from './listContainer';
+import data from "../public/data.json";
 
 export default function Home() {
   return (
@@ -95,7 +97,7 @@ export default function Home() {
         </aside>
         <main role="main">
           {/* Start: Implementation */}
-          👉 Your code goes here 👈
+          <ListContainer className="list-container" list={data.data}/>
           {/* End: Implementation */}
         </main>
         <aside className="banner banner-bottom" role="doc-tip" aria-label="Submit a name">
@@ -1015,6 +1017,10 @@ export default function Home() {
       
           hr[role="separator"] {
               margin: 2rem 0;
+          }
+
+          .list-container {
+            justify-content: space-between;
           }
       }
       
