@@ -2,7 +2,7 @@ import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en'
 import { useState, useMemo, useContext } from 'react'
-import PeopleContext from "./PeopleContext";
+import PeopleContext from "../../utils/PeopleContext";
 import Image from 'next/image'
 
 TimeAgo.addLocale(en)
@@ -14,20 +14,20 @@ export default function PersonCard(props) {
     const [voted, setVoted] = useState(false);
     const [people, setPeople] = useContext(PeopleContext);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const thumbsUp = useMemo(() => getThumbsUp(), [props.person.votes.positive, props.person.votes.negative]);
+    const thumbsUp = useMemo(() => getThumbsUp(), [props.person?.votes.positive, props.person?.votes.negative]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const thumbsDown = useMemo(() => getThumbsDown(), [ props.person.votes.positive, props.person.votes.negative]);
+    const thumbsDown = useMemo(() => getThumbsDown(), [ props.person?.votes.positive, props.person?.votes.negative]);
 
     function isPositive() {
-        return props.person.votes.positive > props.person.votes.negative;
+        return props.person?.votes.positive > props.person?.votes.negative;
     }
 
     function getThumbsUp() {
-        return Math.round(100 * props.person.votes.positive / (props.person.votes.positive + props.person.votes.negative));
+        return Math.round(100 * props.person?.votes.positive / (props.person?.votes.positive + props.person?.votes.negative));
     }
 
     function getThumbsDown() {
-        return Math.round(100 * props.person.votes.negative / (props.person.votes.positive + props.person.votes.negative));
+        return Math.round(100 * props.person?.votes.negative / (props.person?.votes.positive + props.person?.votes.negative));
     }
 
     async function vote() {
@@ -58,7 +58,7 @@ export default function PersonCard(props) {
 
     let backgroundStyle = {
         width: '25%',
-        backgroundImage: `url("../img/${props.person.picture}")`
+        backgroundImage: `url("../img/${props.person?.picture}")`
     }
 
     let background2Style = {
@@ -81,7 +81,7 @@ export default function PersonCard(props) {
         background2Style.left = '0';
         background2Style.width = '100%'
     }
-
+    
     return (
         <div className="person-card">
             <div className='icon-button corner' style={cornerStyle} aria-label={isPositive() ? 'thumbs up' : 'thumbs down'}>
@@ -92,14 +92,14 @@ export default function PersonCard(props) {
             <div className="person-card__background2" style={background2Style}></div>
             <div className="person-card__content" style={contentStyle}>
                 <div className="person-card__text">
-                    <h2 className="person-card__title">{props.person.name}</h2>
+                    <h2 className="person-card__title">{props.person?.name}</h2>
                     <p className="person-card__desc">
-                        {props.person.description}
+                        {props.person?.description}
                     </p>
                 </div>
                 <div className="person-card__detail">
                     <div className="person-card__last-updated">
-                        {voted ? 'Thank you for your vote!' : `${timeAgo.format(new Date(props.person.lastUpdated))} in ${props.person.category}`}
+                        {voted ? 'Thank you for your vote!' : `${timeAgo.format(props.person ? new Date(props.person.lastUpdated) : new Date())} in ${props.person?.category}`}
                     </div>
                     <div className="person-card__voting">
                         {!voted ? 
@@ -287,7 +287,7 @@ export default function PersonCard(props) {
                 }
             }
         `}
-            </style>
-        </div>
+        </style>
+    </div>
     )
 }

@@ -1,13 +1,11 @@
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import { useState, useContext } from 'react';
+import { useContext, useState } from 'react';
 import PersonCard from './personCard';
-import PeopleContext from "./PeopleContext";
-import useWindowDimensions from './useWindowDimensions';
+import PeopleContext from "../../utils/PeopleContext";
+import useWindowDimensions from '../../utils/useWindowDimensions';
 
 export default function ListContainer() {
     const { height, width } = useWindowDimensions();
-    const [people] = useContext(PeopleContext);
+    const [people, setPeople] = useContext(PeopleContext);
 
     const [listOpen, setListOpen] = useState(false);
     const [listOptions, setListOptions] = useState([
@@ -65,8 +63,8 @@ export default function ListContainer() {
                             >
                                 <div className="list-header__dropdown-text">{selectedItem().label}</div>
                                 <div className="list-header__dropdown-icon">{listOpen
-                                    ? <ArrowDropUpIcon />
-                                    : <ArrowDropDownIcon />}</div>
+                                    ? <>&#9650;</>
+                                    : <>&#9660;</>}</div>
                             </button>
                             {listOpen && (
                                 <div
@@ -155,4 +153,4 @@ export default function ListContainer() {
             </style>
         </div>
     )
-}
+} 

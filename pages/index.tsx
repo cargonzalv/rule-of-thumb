@@ -1,24 +1,11 @@
 import Head from 'next/head'
-import ListContainer from './listContainer';
-import PeopleContext from "./PeopleContext";
-import {useState, useEffect} from 'react';
+import ListContainer from './components/listContainer';
+import PeopleContext from "../utils/PeopleContext";
+import {useState} from 'react';
 import Image from 'next/image'
 
-export default function Home() {
-  const [people, setPeople] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const request = await fetch(`api/getData`);
-      const data = await request.json();
-      const peopleData = [];
-      Object.keys(data).forEach((key) => {
-        peopleData[key] = data[key];
-      })
-      setPeople(peopleData);
-    }
-    fetchData();
-  }, [])
+export default function Home({people}) {
+  const [context, setContext] = useState(people);
 
   return (
     <div className="container">
@@ -113,7 +100,7 @@ export default function Home() {
         </aside>
         <main role="main">
           {/* Start: Implementation */}
-          <PeopleContext.Provider value={[people, setPeople]}>
+          <PeopleContext.Provider value={[context, setContext]}>
             {/* @ts-ignore */}
             <ListContainer className="list-container"/>
           </PeopleContext.Provider>
@@ -295,3 +282,22 @@ export default function Home() {
       </div>
       )
 }
+
+export async function getServerSideProps() {
+  const baseUrl = process.env.NEXT_PUBLIC_FIREBASE_URL;
+
+  const request = await fetch(`${baseUrl}/getData`);
+  const data = await request.json();
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
+  const peopleData = [];
+  Object.keys(data).forEach((key) => {
+    peopleData[key] = data[key];
+  })
+  return {
+      props: { people: peopleData }, // will be passed to the page component as props
+  }
+}  
