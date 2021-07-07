@@ -8,7 +8,7 @@
     "lint": "next lint",
     "build": "next build",
     "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,11 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.20.0",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.4",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
     "eslint": "^7.30.0",
     "eslint-config-next": "^11.0.1"
   }

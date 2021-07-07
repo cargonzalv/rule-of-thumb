@@ -89,10 +89,10 @@ export default function ListContainer() {
                     </div>)
                 }
             </div>
-            <div className="list-container" style={listContainerStyle}>
+            <div className="list-container" style={listContainerStyle} data-testid="list">
                 {people?.map((item, i) => {
                     return (
-                        <PersonCard key={i} person={item} viewType={selectedItem().label} index={i} width={width}></PersonCard>
+                        <PersonCard key={i} person={item} viewType={selectedItem().label} index={i} width={width} data-testid={'list-' + i}></PersonCard>
                     )
                 })}
             </div>

@@ -19,6 +19,7 @@ export default function Home() {
     }
     fetchData();
   }, [])
+
   return (
     <div className="container">
       <Head>
@@ -460,6 +461,7 @@ export default function Home() {
           position: relative; 
           overflow: hidden;
           height: 80vw;
+          width: 100%;
           min-height: 35rem;
           max-height: 38rem;
           margin-bottom: 2rem;
