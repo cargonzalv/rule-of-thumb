@@ -2,11 +2,20 @@ import Head from 'next/head'
 import ListContainer from './listContainer';
 import data from "../public/data.json";
 import PeopleContext from "./PeopleContext.js";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 export default function Home() {
-  const [people, setPeople] = useState(data.data);
+  const [people, setPeople] = useState([]);
 
+  useEffect(async () => {
+    const request = await fetch(`api/getData`);
+    const data = await request.json();
+    const peopleData = [];
+    Object.keys(data).forEach((key) => {
+      peopleData[key] = data[key];
+    })
+    setPeople(peopleData);
+  }, [])
   return (
     <div className="container">
       <Head>

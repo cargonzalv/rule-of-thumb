@@ -27,7 +27,7 @@ export default function PersonCard(props) {
         return Math.round(100 * props.person.votes.negative / (props.person.votes.positive + props.person.votes.negative));
     }
 
-    function vote() {
+    async function vote() {
         if (voted) {
             setVoted(false);
             setActiveButton(0);
@@ -41,8 +41,16 @@ export default function PersonCard(props) {
             newPeople[props.index].votes.negative++;
         }
         newPeople[props.index].lastUpdated = new Date().toISOString();
-        setPeople(newPeople);
-        setVoted(true);
+        try {
+            const request = await fetch(`api/updateData`, {method: 'PUT', body: JSON.stringify({data: newPeople})});
+            const data = await request.json();
+            console.log(data);
+            setVoted(true);
+            setPeople(newPeople);
+        }
+        catch(err) {
+            console.error(err);
+        }
     }
 
     let backgroundStyle = {
