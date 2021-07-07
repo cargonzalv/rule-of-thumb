@@ -1,4 +1,4 @@
-// pages/_document.js
+// pages/_document.tsx
 
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 

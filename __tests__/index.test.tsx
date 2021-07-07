@@ -1,10 +1,10 @@
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import App from "../pages/index";
 import mockData from '../public/data.json';
+import { shallow } from "enzyme";
 
 const mockSuccesfulResponse = (
   status = 200,
-  method = RequestType.GET,
   returnBody
 ) => {
   global.fetch = jest.fn().mockImplementationOnce(() => {
@@ -24,15 +24,12 @@ afterEach(cleanup);
 
 describe("App", () => {
   it("renders without crashing", async () => {
-    mockSuccesfulResponse(200, 'GET', []);
-    render(<App />);
-    expect(
-      screen.getByRole("heading", { name: "Rule of thumb." })
-    ).toBeInTheDocument();
+    const app = shallow(<App />);
+    expect(app.find("h1").text()).toEqual("Rule of thumb.");
   });
 
   it("Renders list of famous people", async () => {
-    mockSuccesfulResponse(200, 'GET', mockData.data);
+    mockSuccesfulResponse(200, mockData.data);
     const { asFragment, findByTestId } = render(<App />);
 
     const listNode = await findByTestId('list');

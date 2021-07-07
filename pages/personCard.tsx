@@ -2,7 +2,7 @@ import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en'
 import { useState, useMemo, useContext } from 'react'
-import PeopleContext from "./PeopleContext.js";
+import PeopleContext from "./PeopleContext";
 import Image from 'next/image'
 
 TimeAgo.addLocale(en)
@@ -57,7 +57,8 @@ export default function PersonCard(props) {
     }
 
     let backgroundStyle = {
-            backgroundImage: `url("../img/${props.person.picture}")`
+        width: '25%',
+        backgroundImage: `url("../img/${props.person.picture}")`
     }
 
     let background2Style = {
@@ -69,13 +70,15 @@ export default function PersonCard(props) {
         marginLeft: '25%'
     };
 
-    let cornerStyle = {}
+    let cornerStyle = {
+        top: ''
+    }
 
     if (props.viewType === 'Grid' || props.width < 600) {
         backgroundStyle.width = '100%';
         contentStyle.marginLeft = '30px';
         cornerStyle.top = '50%';
-        background2Style.left = 0;
+        background2Style.left = '0';
         background2Style.width = '100%'
     }
 
@@ -171,7 +174,6 @@ export default function PersonCard(props) {
             }
             .person-card__background {
                 position: absolute;
-                width: 25%;
                 height: 100%;
                 background-size: cover;
                 background-repeat: round;

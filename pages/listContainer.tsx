@@ -2,7 +2,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { useState, useContext } from 'react';
 import PersonCard from './personCard';
-import PeopleContext from "./PeopleContext.js";
+import PeopleContext from "./PeopleContext";
 import useWindowDimensions from './useWindowDimensions';
 
 export default function ListContainer() {
@@ -33,7 +33,7 @@ export default function ListContainer() {
         return listOptions.find((lo) => lo.selected);
     }
 
-    const listContainerStyle = {
+    const listContainerStyle: any = {
         flexFlow: 'column wrap',
         overflowY: 'unset'
     }
@@ -65,8 +65,8 @@ export default function ListContainer() {
                             >
                                 <div className="list-header__dropdown-text">{selectedItem().label}</div>
                                 <div className="list-header__dropdown-icon">{listOpen
-                                    ? <ArrowDropUpIcon size="2x" />
-                                    : <ArrowDropDownIcon size="2x" />}</div>
+                                    ? <ArrowDropUpIcon />
+                                    : <ArrowDropDownIcon />}</div>
                             </button>
                             {listOpen && (
                                 <div
@@ -140,6 +140,7 @@ export default function ListContainer() {
                     justify-content: flex-end;
                 }
                 .list-container {
+                    justify-content: space-between;
                     height: 100%;
                     display: flex;
                     margin-bottom: 10px;
