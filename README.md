@@ -7,22 +7,22 @@ Initialized with starter template from [Learn Next.js](https://nextjs.org/learn)
 
 Here you will find a [Trello Board](https://trello.com/b/EpCUpeKr/fed-challenge) with all the tasks implemented for this challenge
 
-![Trello Board](docs/Trello.png)
+![Trello Board](docs/Trello.PNG)
 
 ## Functionality
 
 In order to check the finished product, there is a public website available [here](http://35.196.128.253/)
 
 ### List View
-![Website](docs/website.png)
+![Website](docs/website.PNG)
 
 ### Grid View
 
-![Website Grid View](docs/website2.png)
+![Website Grid View](docs/website2.PNG)
 
 ### Mobile View
 
-![Website Mobile View](docs/websiteMobile.png)
+![Website Mobile View](docs/websiteMobile.PNG)
 
 ## Persistance
 
@@ -30,11 +30,11 @@ Implemented serverless firebase functions in order to retrieve data from a realt
 
 ### Realtime DB
 
-![Realtime DB](docs/RealtimeDatabase.png)
+![Realtime DB](docs/RealtimeDatabase.PNG)
 
 ### Serverless functions
 
-![Cloud Functions](docs/CloudFunctions.png)
+![Cloud Functions](docs/CloudFunctions.PNG)
 
 - getData retrieves the entire document to be able to show it when the page renders
 
@@ -66,7 +66,7 @@ Implemented serverless firebase functions in order to retrieve data from a realt
 
     The website is running inside a Kubernetes cluster, with the Docker containers in 3 Compute instances, configured to do load balancing.
 
-    ![Kube](docs/KubeCluster.png)
+    ![Kube](docs/KubeCluster.PNG)
 
 - [x] Production ready
 
