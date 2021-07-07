@@ -1,4 +1,5 @@
 //PeopleContext.js
 
 import React from "react";
-export const PeopleContext = React.createContext();
+const PeopleContext = React.createContext();
+export default PeopleContext;

@@ -2,7 +2,7 @@ import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en'
 import { useState, useMemo, useContext } from 'react'
-import { PeopleContext } from "./PeopleContext.js";
+import PeopleContext from "./PeopleContext.js";
 
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -85,7 +85,7 @@ export default function PersonCard(props) {
                 </div>
                 <div className="person-card__detail">
                     <div className="person-card__last-updated">
-                        {timeAgo.format(new Date(props.person.lastUpdated))} in {props.person.category}
+                        {voted ? 'Thank you for your vote!' : `${timeAgo.format(new Date(props.person.lastUpdated))} in ${props.person.category}`}
                     </div>
                     <div className="person-card__voting">
                         {!voted ? 
