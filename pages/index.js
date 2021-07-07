@@ -1,20 +1,23 @@
 import Head from 'next/head'
 import ListContainer from './listContainer';
-import data from "../public/data.json";
 import PeopleContext from "./PeopleContext.js";
 import {useState, useEffect} from 'react';
+import Image from 'next/image'
 
 export default function Home() {
   const [people, setPeople] = useState([]);
 
-  useEffect(async () => {
-    const request = await fetch(`api/getData`);
-    const data = await request.json();
-    const peopleData = [];
-    Object.keys(data).forEach((key) => {
-      peopleData[key] = data[key];
-    })
-    setPeople(peopleData);
+  useEffect(() => {
+    async function fetchData() {
+      const request = await fetch(`api/getData`);
+      const data = await request.json();
+      const peopleData = [];
+      Object.keys(data).forEach((key) => {
+        peopleData[key] = data[key];
+      })
+      setPeople(peopleData);
+    }
+    fetchData();
   }, [])
   return (
     <div className="container">
@@ -24,7 +27,6 @@ export default function Home() {
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
         <title>Rule of Thumb</title>
         <link rel="icon" href="/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
       </Head>
       <nav className="nav" role="navigation">
         <div className="max-centered">
@@ -46,7 +48,7 @@ export default function Home() {
               <form>
                 <input className="nav__search-input" aria-label="search" type="text" />
                 <button className="nav__search icon-button" alt="Search" type="submit">
-                  <img src="img/search.svg" alt="search" />
+                  <Image src="/img/search.svg" width="25px" height="5px" alt="search" />
                 </button>
               </form>
             </li>
@@ -54,12 +56,12 @@ export default function Home() {
         </div>
       </nav>
       <header className="hero">
-        <img className="hero__background" srcSet="img/pope-francis.png 750w, img/pope-francis.@2x.png 1440w" sizes="(min-width: 750px) 1440px, 100vw" src="img/pope-francis.png" alt="Pope Francis" />
+        <Image className="hero__background" layout="fill" srcSet="img/pope-francis.png 750w, img/pope-francis.@2x.png 1440w" sizes="(min-width: 750px) 1440px, 100vw" src="/img/pope-francis.png" alt="Pope Francis" />
         <div className="max-centered">
           <div className="hero__featured-card">
             <div className="featured-card__glass-background" />
             <div className="featured-card__content">
-              <p className="featured-card__hairline">What's your opinion on</p>
+              <p className="featured-card__hairline">What&apos;s your opinion on</p>
               <h2 className="featured-card__title">Pope Francis?</h2>
               <p className="featured-card__desc">
                 He’s talking tough on clergy sexual abuse, or is he just another pervert protector? (thumbs down) or a true pedophile punishing pontiff? (thumbs up)
@@ -73,11 +75,11 @@ export default function Home() {
                 What’s Your Veredict?
               </p>
               <div className="featured-card__buttons">
-                <button className="icon-button" aria-label="thumbs up">
-                  <img src="img/thumbs-up.svg" alt="thumbs up" />
+                <button className="icon-button"  aria-label="thumbs up">
+                  <Image src="/img/thumbs-up.svg" width="36px" height="36px" alt="thumbs up" />
                 </button>
                 <button className="icon-button" aria-label="thumbs down">
-                  <img src="img/thumbs-down.svg" alt="thumbs down" />
+                  <Image src="/img/thumbs-down.svg" width="36px" height="36px" alt="thumbs down" />
                 </button>
               </div>
             </div>
@@ -116,7 +118,7 @@ export default function Home() {
           {/* End: Implementation */}
         </main>
         <aside className="banner banner-bottom" role="doc-tip" aria-label="Submit a name">
-          <img srcSet="img/bg-people.png 750w, img/bg-people.@2x.png 1440w" sizes="(min-width: 750px) 1440px, 100vw" className="banner__background" src="img/bg-people.png" alt="" role="none" />
+          <Image srcSet="img/bg-people.png 750w, img/bg-people.@2x.png 1440w" sizes="(min-width: 750px) 1440px, 100vw" className="banner__background" src="/img/bg-people.png" layout="fill" alt="" role="none" />
           <div className="banner__left">
             <h2 className="banner__heading">Is there anyone else you would want us to add?</h2>
           </div>
@@ -375,9 +377,9 @@ export default function Home() {
           background-color: rgba(var(--color-yellow-negative), 1);
       }
       
-      .icon-button > img {
-          width: 100%;
-          height: 100%;
+      .icon-button img {
+          width: 100% !important;
+          height: 100% !important;
       }
       
       .nav__logo {
@@ -550,7 +552,7 @@ export default function Home() {
           height: 2.75rem;
       }
       
-      .featured-card__buttons > .icon-button > img {
+      .featured-card__buttons > .icon-button img {
           max-width: 1.25rem;
       }
       
@@ -979,10 +981,11 @@ export default function Home() {
               height: auto;
           }
       
-          .featured-card__buttons > .icon-button > img {
-              max-width: 2rem;
-              height: 2rem;
-              margin: 1.3rem 0;
+          .featured-card__buttons > .icon-button img {
+              max-width: 2rem !important;
+              height: 2rem !important;
+              margin: 1.3rem 0 !important;
+              min-height: 0px !important;
           }
       
           .closing-gauge__left {

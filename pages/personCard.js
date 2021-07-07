@@ -3,6 +3,7 @@ import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import { useState, useMemo, useContext } from 'react'
 import PeopleContext from "./PeopleContext.js";
+import Image from 'next/image'
 
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -12,7 +13,9 @@ export default function PersonCard(props) {
     const [activeButton, setActiveButton] = useState(0);
     const [voted, setVoted] = useState(false);
     const [people, setPeople] = useContext(PeopleContext);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const thumbsUp = useMemo(() => getThumbsUp(), [props.person.votes.positive, props.person.votes.negative]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const thumbsDown = useMemo(() => getThumbsDown(), [ props.person.votes.positive, props.person.votes.negative]);
 
     function isPositive() {
@@ -79,8 +82,8 @@ export default function PersonCard(props) {
     return (
         <div className="person-card">
             <div className='icon-button corner' style={cornerStyle} aria-label={isPositive() ? 'thumbs up' : 'thumbs down'}>
-                {isPositive() ? (<img src="img/thumbs-up.svg" alt="thumbs up" />) :
-                (<img src="img/thumbs-down.svg" alt="thumbs down" />)}
+                {isPositive() ? (<Image src="/img/thumbs-up.svg" width="24px" height="24px" alt="thumbs up" />) :
+                (<Image src="/img/thumbs-down.svg" width="24px" height="24px" alt="thumbs down" />)}
             </div>
             <div className="person-card__background" style={backgroundStyle} />
             <div className="person-card__background2" style={background2Style}></div>
@@ -98,11 +101,11 @@ export default function PersonCard(props) {
                     <div className="person-card__voting">
                         {!voted ? 
                             <button className={`icon-button ${activeButton === 1 ? 'selected' : ''}`} aria-label="thumbs up" onClick={() => setActiveButton(1)}>
-                                <img src="img/thumbs-up.svg" alt="thumbs up" />
+                                <Image src="/img/thumbs-up.svg" width="36px" height="36px" alt="thumbs up" />
                             </button> : ''}
                         {!voted ? 
                             <button className={`icon-button ${activeButton === 2 ? 'selected' : ''}`} aria-label="thumbs down" onClick={() => setActiveButton(2)}>
-                                <img src="img/thumbs-down.svg" alt="thumbs down" />
+                                <Image src="/img/thumbs-down.svg" width="36px" height="36px" alt="thumbs down" />
                             </button> : ''}
                         <button disabled={!activeButton} className='vote-button' aria-label="Vote now" onClick={() => vote()}>
                             {voted ? 'Vote Again' : 'Vote Now'}
@@ -112,12 +115,12 @@ export default function PersonCard(props) {
             </div>
             <div className="person-card__votes">
                 <div className="icon-button" aria-label="thumbs up" style={{width: thumbsUp + '%'}}>
-                    <img src="img/thumbs-up.svg" alt="thumbs up" />
-                    <div>{thumbsUp}%</div>
+                    <Image src="/img/thumbs-up.svg" width="36px" height="36px" alt="thumbs up" />
+                    <div style={{marginLeft: 5}}>{thumbsUp}%</div>
                 </div>
                 <div className="icon-button" aria-label="thumbs down" style={{width: thumbsDown + '%'}}>
-                    <div>{thumbsDown}%</div>
-                    <img src="img/thumbs-down.svg" alt="thumbs down" />
+                    <div style={{marginRight: 5}}>{thumbsDown}%</div>
+                    <Image src="/img/thumbs-down.svg" width="36px" height="36px" alt="thumbs down" />
                 </div>
             </div>
             <style jsx>{`
@@ -134,6 +137,9 @@ export default function PersonCard(props) {
                 position: absolute;
                 z-index: 5;
                 margin: 0;
+                height: 20px;
+                width: 20px;
+                padding: 10px;
             }
             .person-card__text {
                 width: ${props.viewType === 'List' && props.width >= 600 ? '70%' : '100%'}
@@ -200,14 +206,15 @@ export default function PersonCard(props) {
             button.icon-button {
                 cursor: pointer;
             }
-            .icon-button {
+            .icon-button:not(.corner) {
                 text-align: center;
-                height: 35px;
-                width: 35px;
+                height: 40px;
+                width: 40px;
+                padding: 5px;
                 margin: 5px;
             }
-            .icon-button > img {
-                width: 25px;
+            .icon-button img {
+                width: 25px !important;
             }
             .person-card__voting .icon-button:active, .person-card__voting > .icon-button.selected {
                 border: 3px solid white;
@@ -250,9 +257,11 @@ export default function PersonCard(props) {
                 height: 2.75rem;
             }
             
-            .person-card__votes > .icon-button > img {
-                max-width: 1.25rem;
-                margin: 5px;
+            .person-card__votes > .icon-button img {
+                max-width: 1.25rem !important;
+                margin: 5px !important;
+                padding: 5px !important;
+                min-height: 0px !important;
             }
             .person-card__votes .icon-button[aria-label="thumbs up"] {
                 justify-content: flex-start;

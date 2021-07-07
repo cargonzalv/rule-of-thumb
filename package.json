@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
+    "lint": "next lint",
     "build": "next build",
     "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -35,5 +36,9 @@
     "next": "^11.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-next": "^11.0.1"
   }
 }
