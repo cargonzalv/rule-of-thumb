@@ -96,7 +96,7 @@ export default function ListContainer() {
                     )
                 })}
             </div>
-            <style jsx>{`
+            <style>{`
                 .list-header {
                     bottom: 0;
                     display: flex;
