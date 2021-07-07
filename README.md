@@ -68,9 +68,9 @@ Implemented serverless firebase functions in order to retrieve data from a realt
 
     ![Kube](docs/KubeCluster.PNG)
 
-- [x] Production ready
+- [x] Different envs & Production ready
 
-    All NestJS configurations are set up to be as efficient as posible in terms of loading times on production
+    All NestJS configurations are set up to be as efficient as posible in terms of loading times on production. It also has environment variable files for development.
 
 ## How to run it?
 
