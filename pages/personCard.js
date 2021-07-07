@@ -41,7 +41,6 @@ export default function PersonCard(props) {
             newPeople[props.index].votes.negative++;
         }
         newPeople[props.index].lastUpdated = new Date().toISOString();
-        console.log(newPeople);
         setPeople(newPeople);
         setVoted(true);
     }
@@ -51,17 +50,17 @@ export default function PersonCard(props) {
     }
 
     let background2Style = {
-        left: '30%',
-        width: '70%'
+        left: '25%',
+        width: '75%'
     }
 
     let contentStyle = {
-        marginLeft: '30%'
+        marginLeft: '25%'
     };
 
     let cornerStyle = {}
 
-    if (props.viewType === 'Grid') {
+    if (props.viewType === 'Grid' || props.width < 600) {
         backgroundStyle.width = '100%';
         contentStyle.marginLeft = '30px';
         cornerStyle.top = '50%';
@@ -70,7 +69,7 @@ export default function PersonCard(props) {
     }
 
     return (
-        <div className="person-card" style={props.viewType === 'List' ? {flexGrow: '1'} : {flexBasis: '320px', height: '320px'}}>
+        <div className="person-card">
             <div className='icon-button corner' style={cornerStyle} aria-label={isPositive() ? 'thumbs up' : 'thumbs down'}>
                 {isPositive() ? (<img src="img/thumbs-up.svg" alt="thumbs up" />) :
                 (<img src="img/thumbs-down.svg" alt="thumbs down" />)}
@@ -118,9 +117,10 @@ export default function PersonCard(props) {
                 position: relative;
                 top: 1.5rem;
                 left: 1rem;
-                overflow: hidden;
                 margin-bottom: 5%;
                 padding-bottom: 50px;
+                height: 200px;
+                ${props.viewType === 'List' && props.width >= 600 ? 'flex-grow: 1' : 'flex-basis: 230px; margin: 10px'}
             }
             .icon-button.corner {
                 position: absolute;
@@ -128,19 +128,18 @@ export default function PersonCard(props) {
                 margin: 0;
             }
             .person-card__text {
-                width: ${props.viewType === 'List' ? '70%' : '100%'}
+                width: ${props.viewType === 'List' && props.width >= 600 ? '70%' : '100%'}
             }
             .person-card__title {
-                height: 100px;
+                height: 50px;
                 width: 100%;
-                font-size: 2rem;
+                font-size: 1.5rem;
                 font-weight: 400;
                 line-height: 1;
                 color: white;
                 margin: 0;
             }
             .person-card__desc {
-                height: 65px;
                 display: -webkit-box;
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
@@ -151,14 +150,14 @@ export default function PersonCard(props) {
             .person-card__content {
                 display: flex;
                 flex-wrap: wrap;
-                margin-left: 30%;
+                margin-left: 25%;
                 position: relative;
                 padding: 1rem;
                 color: var(--color-white);
             }
             .person-card__background {
                 position: absolute;
-                width: 30%;
+                width: 25%;
                 height: 100%;
                 background-size: cover;
                 background-repeat: round;
@@ -174,7 +173,7 @@ export default function PersonCard(props) {
                 );
             }
             .person-card__detail {
-                width: ${props.viewType === 'List' ? '30%' : '100%'};
+                width: ${props.viewType === 'List' && props.width >= 600 ? '25%' : '100%'};
                 align-text: center;
             }
             .person-card__last-updated {
@@ -254,6 +253,19 @@ export default function PersonCard(props) {
             .person-card__votes .icon-button[aria-label="thumbs down"] {
                 justify-content: flex-end;
                 transition: width 2s;
+            }
+            @media all and (min-width: 600px) {
+                .person-card {
+                    height: 150px;
+                }
+            }
+            @media all and (min-width: 1100px) {
+                .person-card {
+                    ${props.viewType === 'Grid' ? 'flex-basis: 500px; height: 400px;' : 'flex: 1'}
+                }
+                .person-card__content {
+                    ${props.viewType === 'Grid' ? 'margin-top: 150px;' : ''};
+                }
             }
         `}
             </style>

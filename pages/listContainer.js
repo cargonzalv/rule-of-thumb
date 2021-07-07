@@ -1,19 +1,21 @@
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import PersonCard from './personCard';
 import { PeopleContext } from "./PeopleContext.js";
+import useWindowDimensions from './useWindowDimensions';
 
 export default function ListContainer() {
+    const { height, width } = useWindowDimensions();
     const [people] = useContext(PeopleContext);
 
     const [listOpen, setListOpen] = useState(false);
     const [listOptions, setListOptions] = useState([
-        { 
+        {
             label: 'List',
             selected: true
         },
-        { 
+        {
             label: 'Grid',
             selected: false
         }
@@ -31,13 +33,29 @@ export default function ListContainer() {
         return listOptions.find((lo) => lo.selected);
     }
 
+    const listContainerStyle = {
+        flexFlow: 'column wrap',
+        overflowY: 'unset'
+    }
+
+    if (selectedItem().label === 'Grid' && width >= 600) {
+        listContainerStyle.flexFlow = 'row wrap';
+    }
+    else if (width < 600) {
+        listContainerStyle.flexFlow = '';
+        listContainerStyle.width = '90vw';
+        listContainerStyle.overflowX = 'auto';
+        listContainerStyle.height = '300px';
+
+    }
+
     return (
         <div>
             <div className="list-header">
                 <div className="list-header__left">
                     <span className="list-header__title">Previous Rulings</span>
                 </div>
-                <div className="list-header__right">
+                {width >= 600 ? <div className="list-header__right">
                     <div className="list-header__dropdown">
                         <button
                             type="button"
@@ -67,12 +85,12 @@ export default function ListContainer() {
                             </div>
                         )}
                     </div>
-                </div>
+                </div> : ''}
             </div>
-            <div className="list-container" style={selectedItem().label === 'Grid' ? {flexFlow: 'row wrap'}: {flexFlow: 'column nowrap'}}>
+            <div className="list-container" style={listContainerStyle}>
                 {people?.map((item, i) => {
                     return (
-                        <PersonCard key={i} person={item} viewType={selectedItem().label} index={i}></PersonCard>
+                        <PersonCard key={i} person={item} viewType={selectedItem().label} index={i} width={width}></PersonCard>
                     )
                 })}
             </div>
@@ -120,9 +138,15 @@ export default function ListContainer() {
                     justify-content: flex-end;
                 }
                 .list-container {
+                    height: 100%;
                     display: flex;
-                    margin-bottom: 100px;
+                    margin-bottom: 10px;
                     margin-right: 5%;
+                }
+                @media all and (min-width: 600px) {
+                    .list-container {
+                        justify-content: space-evenly;
+                    }
                 }
             `}
             </style>
