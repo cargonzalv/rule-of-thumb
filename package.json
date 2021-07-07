@@ -10,6 +10,17 @@
     "start": "next start",
     "test": "jest"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cargonzalv/rule-of-thumb.git"
@@ -42,8 +53,10 @@
     "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/react": "^10.4.4",
     "babel-jest": "^26.1.0",
-    "jest": "^26.1.0",
     "eslint": "^7.30.0",
-    "eslint-config-next": "^11.0.1"
+    "eslint-config-next": "^11.0.1",
+    "husky": "^7.0.1",
+    "jest": "^26.1.0",
+    "lint-staged": "^11.0.0"
   }
 }
