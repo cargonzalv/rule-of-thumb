@@ -24,13 +24,12 @@ afterEach(cleanup);
 
 describe("App", () => {
   it("renders without crashing", async () => {
-    const app = shallow(<App />);
+    const app = shallow(<App people={mockData.data} />);
     expect(app.find("h1").text()).toEqual("Rule of thumb.");
   });
 
   it("Renders list of famous people", async () => {
-    mockSuccesfulResponse(200, mockData.data);
-    const { asFragment, findByTestId } = render(<App />);
+    const { asFragment, findByTestId } = render(<App people={mockData.data}/>);
 
     const listNode = await findByTestId('list');
     expect(listNode.children).toHaveLength(6);

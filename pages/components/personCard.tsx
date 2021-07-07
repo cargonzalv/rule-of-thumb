@@ -126,7 +126,7 @@ export default function PersonCard(props) {
                     <Image src="/img/thumbs-down.svg" width="36px" height="36px" alt="thumbs down" />
                 </div>
             </div>
-            <style>{`
+            <style jsx>{`
             .person-card {
                 position: relative;
                 top: 1.5rem;

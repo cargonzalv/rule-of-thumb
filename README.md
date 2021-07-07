@@ -9,6 +9,7 @@ zemoga-fed-319108
 
 docker build -t gcr.io/zemoga-fed-319108/ruleofthumb:v1 .
 
+Run docker locally: 
 docker run --rm -p 3000:3000 gcr.io/zemoga-fed-319108/ruleofthumb:v1
 
 gcloud docker -- push gcr.io/zemoga-fed-319108/nextapollo:v1
