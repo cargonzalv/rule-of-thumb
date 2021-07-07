@@ -10,10 +10,10 @@ const timeAgo = new TimeAgo('en-US')
 
 export default function PersonCard(props) {
     const [activeButton, setActiveButton] = useState(0);
-    const thumbsUp = useMemo(() => getThumbsUp(), [props.person.votes.positive, props.person.votes.negative]);
-    const thumbsDown = useMemo(() => getThumbsDown(), [ props.person.votes.positive, props.person.votes.negative]);
     const [voted, setVoted] = useState(false);
     const [people, setPeople] = useContext(PeopleContext);
+    const thumbsUp = useMemo(() => getThumbsUp(), [props.person.votes.positive, props.person.votes.negative]);
+    const thumbsDown = useMemo(() => getThumbsDown(), [ props.person.votes.positive, props.person.votes.negative]);
 
     function isPositive() {
         return props.person.votes.positive > props.person.votes.negative;
@@ -46,17 +46,38 @@ export default function PersonCard(props) {
         setVoted(true);
     }
 
+    let backgroundStyle = {
+            backgroundImage: `url("../img/${props.person.picture}")`
+    }
+
+    let background2Style = {
+        left: '30%',
+        width: '70%'
+    }
+
+    let contentStyle = {
+        marginLeft: '30%'
+    };
+
+    let cornerStyle = {}
+
+    if (props.viewType === 'Grid') {
+        backgroundStyle.width = '100%';
+        contentStyle.marginLeft = '30px';
+        cornerStyle.top = '50%';
+        background2Style.left = 0;
+        background2Style.width = '100%'
+    }
+
     return (
-        <div className="person-card">
-            <div className='icon-button corner' aria-label={isPositive() ? 'thumbs up' : 'thumbs down'}>
+        <div className="person-card" style={props.viewType === 'List' ? {flexGrow: '1'} : {flexBasis: '320px', height: '320px'}}>
+            <div className='icon-button corner' style={cornerStyle} aria-label={isPositive() ? 'thumbs up' : 'thumbs down'}>
                 {isPositive() ? (<img src="img/thumbs-up.svg" alt="thumbs up" />) :
                 (<img src="img/thumbs-down.svg" alt="thumbs down" />)}
             </div>
-            <div className="person-card__background" style={{
-                backgroundImage: `url("../img/${props.person.picture}")`
-            }} />
-            <div className="person-card__background2"></div>
-            <div className="person-card__content">
+            <div className="person-card__background" style={backgroundStyle} />
+            <div className="person-card__background2" style={background2Style}></div>
+            <div className="person-card__content" style={contentStyle}>
                 <div className="person-card__text">
                     <h2 className="person-card__title">{props.person.name}</h2>
                     <p className="person-card__desc">
@@ -95,11 +116,11 @@ export default function PersonCard(props) {
             <style jsx>{`
             .person-card {
                 position: relative;
-                top: 5.5rem;
+                top: 1.5rem;
                 left: 1rem;
                 overflow: hidden;
-                width: 90vw;
                 margin-bottom: 5%;
+                padding-bottom: 50px;
             }
             .icon-button.corner {
                 position: absolute;
@@ -107,26 +128,29 @@ export default function PersonCard(props) {
                 margin: 0;
             }
             .person-card__text {
-                width: 70%;
+                width: ${props.viewType === 'List' ? '70%' : '100%'}
             }
             .person-card__title {
+                height: 100px;
                 width: 100%;
-                font-size: 3rem;
+                font-size: 2rem;
                 font-weight: 400;
                 line-height: 1;
                 color: white;
+                margin: 0;
             }
             .person-card__desc {
-                overflow: hidden;
-                max-height: 10.5rem;
+                height: 65px;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
-                font-size: 1.25rem;
-                font-weight: 300;
-                -webkit-line-clamp: 6;
+                overflow: hidden;
                 text-overflow: ellipsis;
+                font-weight: 300;
             }
             .person-card__content {
                 display: flex;
+                flex-wrap: wrap;
                 margin-left: 30%;
                 position: relative;
                 padding: 1rem;
@@ -142,8 +166,6 @@ export default function PersonCard(props) {
             }
             .person-card__background2 {
                 position: absolute;
-                left: 30%;
-                width: 70%;
                 height: 100%;
                 background:
                 center no-repeat linear-gradient(
@@ -152,19 +174,20 @@ export default function PersonCard(props) {
                 );
             }
             .person-card__detail {
-                width: 30%;
+                width: ${props.viewType === 'List' ? '30%' : '100%'};
                 align-text: center;
             }
             .person-card__last-updated {
                 display: flex;
                 margin: 0;
-                font-weight: 300;
+                font-size: 0.7rem;
+                font-weight: 500;
                 justify-content: flex-end;
             }
             .person-card__voting {
                 display: flex;
                 justify-content: flex-end;
-                margin-top: 20px;
+                margin-top: 10px;
                 height: 50px;
             }
             button.icon-button {
@@ -172,8 +195,8 @@ export default function PersonCard(props) {
             }
             .icon-button {
                 text-align: center;
-                height: 40px;
-                width: 40px;
+                height: 35px;
+                width: 35px;
                 margin: 5px;
             }
             .icon-button > img {
@@ -202,6 +225,9 @@ export default function PersonCard(props) {
             }
 
             .person-card__votes {
+                bottom: 0;
+                position: absolute;
+                width: 100%;
                 display: flex;
                 justify-content: space-between;
             }

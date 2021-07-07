@@ -5,15 +5,17 @@ import PersonCard from './personCard';
 import { PeopleContext } from "./PeopleContext.js";
 
 export default function ListContainer() {
-    const [people, setPeople] = useContext(PeopleContext);
+    const [people] = useContext(PeopleContext);
 
     const [listOpen, setListOpen] = useState(false);
     const [listOptions, setListOptions] = useState([
         { 
-            label: 'List', selected: true
+            label: 'List',
+            selected: true
         },
         { 
-            label: 'Grid', selected: false
+            label: 'Grid',
+            selected: false
         }
     ])
 
@@ -67,10 +69,10 @@ export default function ListContainer() {
                     </div>
                 </div>
             </div>
-            <div className="list-container">
+            <div className="list-container" style={selectedItem().label === 'Grid' ? {flexFlow: 'row wrap'}: {flexFlow: 'column nowrap'}}>
                 {people?.map((item, i) => {
                     return (
-                        <PersonCard key={i} person={item} index={i}></PersonCard>
+                        <PersonCard key={i} person={item} viewType={selectedItem().label} index={i}></PersonCard>
                     )
                 })}
             </div>
@@ -118,7 +120,9 @@ export default function ListContainer() {
                     justify-content: flex-end;
                 }
                 .list-container {
+                    display: flex;
                     margin-bottom: 100px;
+                    margin-right: 5%;
                 }
             `}
             </style>
