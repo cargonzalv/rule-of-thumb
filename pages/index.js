@@ -1,8 +1,12 @@
 import Head from 'next/head'
 import ListContainer from './listContainer';
 import data from "../public/data.json";
+import { PeopleContext } from "./PeopleContext.js";
+import {useState} from 'react';
 
 export default function Home() {
+  const [people, setPeople] = useState(data.data);
+
   return (
     <div className="container">
       <Head>
@@ -97,7 +101,9 @@ export default function Home() {
         </aside>
         <main role="main">
           {/* Start: Implementation */}
-          <ListContainer className="list-container" list={data.data}/>
+          <PeopleContext.Provider value={[people, setPeople]}>
+            <ListContainer className="list-container"/>
+          </PeopleContext.Provider>
           {/* End: Implementation */}
         </main>
         <aside className="banner banner-bottom" role="doc-tip" aria-label="Submit a name">
@@ -1019,11 +1025,10 @@ export default function Home() {
               margin: 2rem 0;
           }
 
-      }
-      
-      .list-container {
-        justify-content: space-between;
-      }
+        }
+        .list-container {
+          justify-content: space-between;
+        }
       
       `}</style>
       </div>

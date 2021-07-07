@@ -1,9 +1,12 @@
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import PersonCard from './personCard';
+import { PeopleContext } from "./PeopleContext.js";
 
-export default function ListContainer(props) {
+export default function ListContainer() {
+    const [people, setPeople] = useContext(PeopleContext);
+
     const [listOpen, setListOpen] = useState(false);
     const [listOptions, setListOptions] = useState([
         { 
@@ -65,9 +68,9 @@ export default function ListContainer(props) {
                 </div>
             </div>
             <div className="list-container">
-                {props.list?.map((item) => {
+                {people?.map((item, i) => {
                     return (
-                        <PersonCard key={item.name} person={item}></PersonCard>
+                        <PersonCard key={i} person={item} index={i}></PersonCard>
                     )
                 })}
             </div>

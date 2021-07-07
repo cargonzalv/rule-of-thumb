@@ -1,58 +1,149 @@
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en'
+import { useState, useMemo, useContext } from 'react'
+import { PeopleContext } from "./PeopleContext.js";
+
+TimeAgo.addLocale(en)
+const timeAgo = new TimeAgo('en-US')
+
+
 export default function PersonCard(props) {
+    const [activeButton, setActiveButton] = useState(0);
+    const thumbsUp = useMemo(() => getThumbsUp(), [props.person.votes.positive, props.person.votes.negative]);
+    const thumbsDown = useMemo(() => getThumbsDown(), [ props.person.votes.positive, props.person.votes.negative]);
+    const [voted, setVoted] = useState(false);
+    const [people, setPeople] = useContext(PeopleContext);
+
+    function isPositive() {
+        return props.person.votes.positive > props.person.votes.negative;
+    }
+
+    function getThumbsUp() {
+        return Math.round(100 * props.person.votes.positive / (props.person.votes.positive + props.person.votes.negative));
+    }
+
+    function getThumbsDown() {
+        return Math.round(100 * props.person.votes.negative / (props.person.votes.positive + props.person.votes.negative));
+    }
+
+    function vote() {
+        if (voted) {
+            setVoted(false);
+            setActiveButton(0);
+            return;
+        }
+        const newPeople = [...people];
+        if (activeButton === 1) {
+            newPeople[props.index].votes.positive++;
+        }
+        else if (activeButton === 2) {
+            newPeople[props.index].votes.negative++;
+        }
+        newPeople[props.index].lastUpdated = new Date().toISOString();
+        console.log(newPeople);
+        setPeople(newPeople);
+        setVoted(true);
+    }
+
     return (
         <div className="person-card">
+            <div className='icon-button corner' aria-label={isPositive() ? 'thumbs up' : 'thumbs down'}>
+                {isPositive() ? (<img src="img/thumbs-up.svg" alt="thumbs up" />) :
+                (<img src="img/thumbs-down.svg" alt="thumbs down" />)}
+            </div>
             <div className="person-card__background" style={{
-                background: `center no-repeat linear-gradient(var(--color-dark-background), var(--color-dark-gray)),
-                  0vw -2.5rem/30vw auto no-repeat url("../img/${props.person.picture}")`
+                backgroundImage: `url("../img/${props.person.picture}")`
             }} />
-            <div className="featured-card__content">
-                <h2 className="person-card__title">{props.person.name}</h2>
-                <p className="featured-card__desc">
-                    He’s talking tough on clergy sexual abuse, or is he just another pervert protector? (thumbs down) or a true pedophile punishing pontiff? (thumbs up)
-                </p>
-                <p className="featured-card__more-info">
-                    <a href="http://wikipedia.com">
-                        <svg className="featured-card__more-info-icon" preserveAspectRatio="xMaxYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 18"><path d="M27 .303c0 .1-.032.2-.09.28a.255.255 0 01-.2.125 2.46 2.46 0 00-1.453.602 5.676 5.676 0 00-1.166 1.952l-6.127 14.533c-.04.135-.152.203-.337.203a.374.374 0 01-.337-.203l-3.436-7.564-3.952 7.564a.374.374 0 01-.337.203.34.34 0 01-.349-.203L3.196 3.262a5.052 5.052 0 00-1.19-1.89A3.161 3.161 0 00.267.708.23.23 0 01.086.6.378.378 0 010 .355C0 .118.064 0 .192 0 .73 0 1.29.025 1.876.075c.544.053 1.056.078 1.536.078.49 0 1.067-.026 1.732-.078C5.839.025 6.456 0 6.994 0c.128 0 .192.118.192.355 0 .235-.04.352-.119.352a2.308 2.308 0 00-1.268.43c-.297.22-.47.581-.463.963.015.263.08.521.192.757l4.975 11.826 2.824-5.614-2.631-5.807A7.637 7.637 0 009.53 1.257a2.274 2.274 0 00-1.382-.55A.208.208 0 017.986.6a.4.4 0 01-.078-.245c0-.237.054-.355.168-.355.494-.002.987.023 1.477.075.46.054.92.08 1.382.078.48 0 .988-.026 1.525-.078C13.013.025 13.558 0 14.094 0c.128 0 .192.118.192.355 0 .235-.038.352-.119.352-1.073.078-1.61.399-1.61.963.047.414.174.814.373 1.175l1.74 3.72 1.732-3.403c.209-.37.333-.786.36-1.215 0-.775-.536-1.188-1.61-1.24-.097 0-.144-.117-.144-.352a.44.44 0 01.071-.24c.05-.077.098-.115.145-.115.385 0 .857.025 1.418.075.536.053.978.078 1.322.078a13.6 13.6 0 001.093-.065A16.806 16.806 0 0120.584 0c.095 0 .142.1.142.303 0 .27-.088.405-.263.405-.54.036-1.061.224-1.508.544a6.937 6.937 0 00-1.423 2.01l-2.308 4.492 3.125 6.702 4.614-11.294c.149-.36.23-.745.24-1.137 0-.828-.537-1.267-1.61-1.317-.097 0-.145-.118-.145-.353 0-.237.071-.355.216-.355.392 0 .857.025 1.394.075.496.053.914.078 1.25.078.409-.003.818-.03 1.224-.078.483-.05.915-.075 1.3-.075.111 0 .168.1.168.303z" fill="#FFF" fillRule="nonzero" /></svg>More information
-                    </a>
-                </p>
-                <p className="featured-card__cta">
-                    What’s Your Veredict?
-                </p>
-                <div className="featured-card__buttons">
-                    <button className="icon-button" aria-label="thumbs up">
-                        <img src="img/thumbs-up.svg" alt="thumbs up" />
-                    </button>
-                    <button className="icon-button" aria-label="thumbs down">
-                        <img src="img/thumbs-down.svg" alt="thumbs down" />
-                    </button>
+            <div className="person-card__background2"></div>
+            <div className="person-card__content">
+                <div className="person-card__text">
+                    <h2 className="person-card__title">{props.person.name}</h2>
+                    <p className="person-card__desc">
+                        {props.person.description}
+                    </p>
+                </div>
+                <div className="person-card__detail">
+                    <div className="person-card__last-updated">
+                        {timeAgo.format(new Date(props.person.lastUpdated))} in {props.person.category}
+                    </div>
+                    <div className="person-card__voting">
+                        {!voted ? 
+                            <button className={`icon-button ${activeButton === 1 ? 'selected' : ''}`} aria-label="thumbs up" onClick={() => setActiveButton(1)}>
+                                <img src="img/thumbs-up.svg" alt="thumbs up" />
+                            </button> : ''}
+                        {!voted ? 
+                            <button className={`icon-button ${activeButton === 2 ? 'selected' : ''}`} aria-label="thumbs down" onClick={() => setActiveButton(2)}>
+                                <img src="img/thumbs-down.svg" alt="thumbs down" />
+                            </button> : ''}
+                        <button disabled={!activeButton} className='vote-button' aria-label="Vote now" onClick={() => vote()}>
+                            {voted ? 'Vote Again' : 'Vote Now'}
+                        </button>
+                    </div>
                 </div>
             </div>
-        <style jsx>{`
+            <div className="person-card__votes">
+                <div className="icon-button" aria-label="thumbs up" style={{width: thumbsUp + '%'}}>
+                    <img src="img/thumbs-up.svg" alt="thumbs up" />
+                    <div>{thumbsUp}%</div>
+                </div>
+                <div className="icon-button" aria-label="thumbs down" style={{width: thumbsDown + '%'}}>
+                    <div>{thumbsDown}%</div>
+                    <img src="img/thumbs-down.svg" alt="thumbs down" />
+                </div>
+            </div>
+            <style jsx>{`
             .person-card {
                 position: relative;
                 top: 5.5rem;
                 left: 1rem;
                 overflow: hidden;
-                width: 80vw;
-                max-height: 25rem;
+                width: 90vw;
                 margin-bottom: 5%;
             }
-            .person-card__title {
+            .icon-button.corner {
+                position: absolute;
+                z-index: 5;
                 margin: 0;
+            }
+            .person-card__text {
+                width: 70%;
+            }
+            .person-card__title {
+                width: 100%;
                 font-size: 3rem;
                 font-weight: 400;
                 line-height: 1;
                 color: white;
             }
+            .person-card__desc {
+                overflow: hidden;
+                max-height: 10.5rem;
+                -webkit-box-orient: vertical;
+                font-size: 1.25rem;
+                font-weight: 300;
+                -webkit-line-clamp: 6;
+                text-overflow: ellipsis;
+            }
+            .person-card__content {
+                display: flex;
+                margin-left: 30%;
+                position: relative;
+                padding: 1rem;
+                color: var(--color-white);
+            }
             .person-card__background {
                 position: absolute;
-                width: 100%;
+                width: 30%;
                 height: 100%;
+                background-size: cover;
+                background-repeat: round;
+                filter: 
             }
             .person-card__background2 {
                 position: absolute;
-                left: 40%;
-                width: 60%;
+                left: 30%;
+                width: 70%;
                 height: 100%;
                 background:
                 center no-repeat linear-gradient(
@@ -60,8 +151,86 @@ export default function PersonCard(props) {
                     var(--color-dark-gray)
                 );
             }
+            .person-card__detail {
+                width: 30%;
+                align-text: center;
+            }
+            .person-card__last-updated {
+                display: flex;
+                margin: 0;
+                font-weight: 300;
+                justify-content: flex-end;
+            }
+            .person-card__voting {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 20px;
+                height: 50px;
+            }
+            button.icon-button {
+                cursor: pointer;
+            }
+            .icon-button {
+                text-align: center;
+                height: 40px;
+                width: 40px;
+                margin: 5px;
+            }
+            .icon-button > img {
+                width: 25px;
+            }
+            .person-card__voting .icon-button:active, .person-card__voting > .icon-button.selected {
+                border: 3px solid white;
+            }
+            .vote-button {
+                cursor: pointer;
+                margin: 4px;
+                width: 50%;
+                color: var(--color-white);
+                background-color: var(--color-dark-background);
+                border: 1px solid var(--color-white);   
+            }
+            .vote-button:hover {
+                background-color: var(--color-dark-gray);;
+            }
+            .vote-button:disabled {
+                border: none;
+            }
+            .vote-button:disabled:hover {
+                cursor: default;
+                background-color: var(--color-dark-background);
+            }
+
+            .person-card__votes {
+                display: flex;
+                justify-content: space-between;
+            }
+            
+            .person-card__votes > .icon-button {
+                display: flex;
+                align-items: center;
+                color: white;
+                margin: 0;
+                padding: 0 10px;
+                z-index: 10;
+                width: 50%;
+                height: 2.75rem;
+            }
+            
+            .person-card__votes > .icon-button > img {
+                max-width: 1.25rem;
+                margin: 5px;
+            }
+            .person-card__votes .icon-button[aria-label="thumbs up"] {
+                justify-content: flex-start;
+                transition: width 2s;
+            }
+            .person-card__votes .icon-button[aria-label="thumbs down"] {
+                justify-content: flex-end;
+                transition: width 2s;
+            }
         `}
-        </style>
+            </style>
         </div>
     )
 }
